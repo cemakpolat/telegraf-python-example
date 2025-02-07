@@ -1,0 +1,21 @@
+services:
+  redis:
+    image: redis:7.4.2  
+    container_name: redis_container  
+    ports:
+      - "6379:6379"  # Map Redis port to the host
+    volumes:
+      - redis_data:/data  
+    restart: unless-stopped 
+  telegraf:
+    build:
+      context: ./  # Build context set to the app folder
+      dockerfile: Dockerfile
+    container_name: telegraf_python
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf  # Mount the Telegraf config
+    ports:
+      - "8125:8125" # For our use case it is not used
+
+volumes:
+  redis_data:  
